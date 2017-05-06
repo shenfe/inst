@@ -1,2 +1,3 @@
 # inst
-Javascript code analysis and instrumentation
+
+Javascript code analysis and instrumentation.
