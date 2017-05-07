@@ -1,0 +1,27 @@
+{
+  "name": "jains",
+  "version": "1.0.0",
+  "description": "Javascript code analysis and instrumentation",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "http://github.com/shenfe/jains"
+  },
+  "keywords": [
+    "javascript",
+    "analysis",
+    "instrumentation"
+  ],
+  "author": "keshen",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/shenfe/jains/issues"
+  },
+  "homepage": "https://github.com/shenfe/jains",
+  "dependencies": {
+    "babylon": "^6.17.0"
+  }
+}
