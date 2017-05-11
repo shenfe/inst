@@ -54,7 +54,7 @@ var travel = function (ast) {
 };
 
 module.exports = {
-    astify: astify,
-    signVisitor: signVisitor,
+    astify,
+    signVisitor,
     traverse: travel
 };
