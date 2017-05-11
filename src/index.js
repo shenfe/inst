@@ -6,8 +6,7 @@ const fs = require('fs');
 const path = require('path');
 
 function getDirs(srcpath) {
-    srcpath = srcpath || './';
-    srcpath = path.resolve(__dirname, srcpath);
+    srcpath = path.resolve(__dirname, srcpath || './');
     return fs.readdirSync(srcpath)
         .filter(file => fs.lstatSync(path.resolve(srcpath, file)).isDirectory());
 }
