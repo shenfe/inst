@@ -34,10 +34,18 @@ var visitors = {
     FunctionDeclaration(path) {
         //TODO
     }
-});
+};
 
 var signVisitor = function (type, handler) {
-    visitors[type] = handler;
+    if (typeof visitors[type] !== 'function') {
+        visitors[type] = handler;
+    } else {
+        var alreadyOne = visitors[type];
+        visitors[type] = function (path) {
+            alreadyOne(path);
+            handler(path);
+        };
+    }
     return visitors;
 };
 
