@@ -1,3 +1,8 @@
-var jainRunner = require('../src/index');
+'use strict'
 
-jainRunner(['functionBeginning'], null, '../src/index.js');
+var jainsRunner = require('../src/index');
+
+var result = jainsRunner(['location', 'functionBeginning'], null, './function1.js');
+
+console.log(result.code);
+// console.log(result.map);
