@@ -1,15 +1,17 @@
 'use strict'
 
+const generate = require('babel-generator');
+
 var base = require('./ast');
 
 const fs = require('fs');
 const path = require('path');
 
-function getDirs(srcpath) {
+var getDirs = function (srcpath) {
     srcpath = path.resolve(__dirname, srcpath || './');
     return fs.readdirSync(srcpath)
         .filter(file => fs.lstatSync(path.resolve(srcpath, file)).isDirectory());
-}
+};
 
 GENERATE_PLUGIN_TABLE: {
     var pluginDirs = getDirs().filter(name => name !== 'ast');
@@ -30,7 +32,13 @@ var runner = function (pluginNames, code, fileName) {
         for (var nodeName in pv) base.signVisitor(nodeName, pv[nodeName]);
     }
 
-    return base.traverse(ast);
+    base.traverse(ast);
+
+    const { newCode, map } = generate(ast, { /* options */ }, {
+        [fileName]: code
+    });
+
+    return newCode;
 };
 
 module.exports = runner;
