@@ -1,6 +1,6 @@
 'use strict'
 
-const generate = require('babel-generator');
+const generate = require('babel-generator').default;
 
 var base = require('./ast');
 
@@ -34,11 +34,14 @@ var runner = function (pluginNames, code, fileName) {
 
     base.traverse(ast);
 
-    const { newCode, map } = generate(ast, { /* options */ }, {
-        [fileName]: code
+    const result = generate(ast, { /* options */ }, {
+        // [fileName]: code
     });
 
-    return newCode;
+    return {
+        code: result.code,
+        map: result.map
+    };
 };
 
 module.exports = runner;
