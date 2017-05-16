@@ -1,9 +1,8 @@
 'use strict';
 
+var fs = require('fs');
 var jainsRunner = require('../src/index');
 
-var result = jainsRunner(['location', 'functionBeginning'], null, './function1.js');
-
-console.log('\n\n\n\n\n\n\n\n');
-console.log(result.code);
-// console.log(result.map);
+var result = jainsRunner(['../src/functionBeginning'], null, './function1.js');
+fs.writeFileSync('./function1.out.js', result);
+console.log(result);

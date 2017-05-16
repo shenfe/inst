@@ -1,56 +1,17 @@
-'use strict';
-
-const generate = require('babel-generator').default;
-
-var base = require('./ast');
-
 const fs = require('fs');
-const path = require('path');
+const babel = require('babel-core');
 
-var getDirs = function (srcpath) {
-    srcpath = path.resolve(__dirname, srcpath || './');
-    return fs.readdirSync(srcpath)
-        .filter(file => fs.lstatSync(path.resolve(srcpath, file)).isDirectory());
-};
+module.exports = function (pluginNames, code, fileName) {
+    if (fileName) code = fs.readFileSync(fileName, 'utf8');
 
-GENERATE_PLUGIN_TABLE: {
-    var pluginDirs = getDirs().filter(name => name !== 'ast');
-    fs.writeFileSync(path.resolve(__dirname, './plugins.js'), 'module.exports={'
-        + pluginDirs.map(name => name + ':require(\'./' + name + '\')').join(',') + '};');
-}
-
-const plugins = require('./plugins.js');
-
-var runner = function (pluginNames, code, fileName) {
-    if (!code) code = fs.readFileSync(fileName, 'utf8');
-
-    var ast = base.astify(code, fileName);
-
-    MOUNT_PLUGINS: {
-        let nodeNames = [];
-        for (let p of pluginNames) {
-            if (!(p in plugins)) continue;
-            var pv = plugins[p];
-            for (var nodeName in pv) {
-                base.signVisitor(nodeName, pv[nodeName]);
-                nodeNames.push(nodeName);
-            }
-        }
-        nodeNames.forEach(nodeName => {
-            base.signVisitor(nodeName, base.visitors.enter);
-        });
-    }
-
-    base.traverse(ast);
-
-    const result = generate(ast, { /* options */ }, {
-        // [fileName]: code
+    var result = babel.transform(code, {
+        plugins: pluginNames,
+        presets: [
+            // 'es2015'
+            // 'stage-2'
+        ],
+        sourceType: 'script'
     });
 
-    return {
-        code: result.code,
-        map: result.map
-    };
+    return result.code;
 };
-
-module.exports = runner;
