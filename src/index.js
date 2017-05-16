@@ -1,4 +1,4 @@
-'use strict'
+'use strict';
 
 const generate = require('babel-generator').default;
 
@@ -26,10 +26,19 @@ var runner = function (pluginNames, code, fileName) {
 
     var ast = base.astify(code, fileName);
 
-    for (let p of pluginNames) {
-        if (!(p in plugins)) continue;
-        var pv = plugins[p];
-        for (var nodeName in pv) base.signVisitor(nodeName, pv[nodeName]);
+    MOUNT_PLUGINS: {
+        let nodeNames = [];
+        for (let p of pluginNames) {
+            if (!(p in plugins)) continue;
+            var pv = plugins[p];
+            for (var nodeName in pv) {
+                base.signVisitor(nodeName, pv[nodeName]);
+                nodeNames.push(nodeName);
+            }
+        }
+        nodeNames.forEach(nodeName => {
+            base.signVisitor(nodeName, base.visitors.enter);
+        });
     }
 
     base.traverse(ast);

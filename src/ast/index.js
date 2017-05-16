@@ -1,6 +1,5 @@
 const babylon = require('babylon');
 const traverse = require('babel-traverse').default;
-const t = require('babel-types');
 
 var astCache = {};
 
@@ -31,8 +30,14 @@ var visitors = {
     enter(path) {
         //TODO
     },
-    FunctionDeclaration(path) {
-        //TODO
+    FunctionDeclaration: function (path) {
+        console.log('FunctionDeclaration');
+    },
+    FunctionExpression: function (path) {
+        console.log('FunctionExpression');
+    },
+    ArrowFunctionExpression: function (path) {
+        console.log('ArrowFunctionExpression');
     }
 };
 
@@ -55,6 +60,7 @@ var travel = function (ast) {
 
 module.exports = {
     astify,
+    visitors,
     signVisitor,
     traverse: travel
 };
