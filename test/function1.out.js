@@ -1,6 +1,6 @@
 function a(v) {
     /*FunctionDeclaration*/var value = v;
-    return value;
+    return value; /*FunctionDeclaration*/
 }
 
 var b = function (v) {
