@@ -1,3 +1,3 @@
 # jains
 
-Javascript code analysis and instrumentation.
+JavaScript code analysis and instrumentation.
